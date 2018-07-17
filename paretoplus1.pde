@@ -13,6 +13,5 @@ void setup() {
   for(int i = 0 ; i < 10 ; i++) {
     ParetoSolution p0 = new ParetoSolution(0, nodenum, weight, objective) ;
   }
-
   exit() ;
 }
