@@ -27,9 +27,9 @@ int[][][] instanceText(String[] lines0, String[] lines1, String[] lines2, int no
     String[] values1 = split(lines1[i], ",") ;
     String[] values2 = split(lines2[i], ",") ;
     for(int j = 0 ; j < nodenum ; j++) {
-      weight[i][j][0] = int(values0[j]) ;
-      weight[i][j][1] = int(values1[j]) ;
-      weight[i][j][2] = int(values2[j]) ;
+      weight[j][i][0] = int(values0[j]) ;
+      weight[j][i][1] = int(values1[j]) ;
+      weight[j][i][2] = int(values2[j]) ;
     }
   }
   return weight ;
