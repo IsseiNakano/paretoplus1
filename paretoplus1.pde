@@ -3,6 +3,7 @@
 void setup() {
   int objective = 3 ;
   int nodenum = 500 ;
+  
   // String[] lines0 = loadStrings("/Users/nakano/Desktop/data500/cost0.csv");
   // String[] lines1 = loadStrings("/Users/nakano/Desktop/data500/cost1.csv");
   // String[] lines2 = loadStrings("/Users/nakano/Desktop/data500/cost2.csv");

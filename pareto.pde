@@ -10,7 +10,7 @@ class ParetoSolution {
     ns = nss ;
     pareto = new PathVec[ns] ;
     for(int j = 0 ; j < ns ; j++)  pareto[j] = new PathVec(j, weight[j]) ;
-    pareto[s].add(new Path(new int[obj], i)) ;
+    pareto[s].upd.add(new Vector(new Path(new int[obj]))) ;
     int start = millis() ;
     bellmanford() ;
     print("time = "+ (millis() - start) ) ;
@@ -21,14 +21,20 @@ class ParetoSolution {
   }
 
   void bellmanford() {
-    Vector update = new Vector() ;
-    update.add(new Vector(pareto[s].dummy.follow.path)) ;
-    while(true) {
-      Vector vs = new Vector() ;
+    boolean flag = true ;
+    while(flag) {
+      flag = false ;
       for(PathVec ps : pareto)
-        ps.paretoConstruction(update, vs) ;
-      if(vs.isEmpty()) break ;
-      update = vs ;
+        for(PathVec pps : pareto)
+          if(ps.index != pps.index)
+          ps.paretoConstruction(pps) ;
+      for(PathVec ps : pareto)
+        ps.update() ;
+      for(PathVec ps : pareto)
+        if(!ps.upd.isEmpty()) {
+          flag = true ;
+          break ;
+        }
     }
   }
 

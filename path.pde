@@ -42,15 +42,13 @@ class Vector {
   }
   void paretoOut(Path path) {
     for(Vector s = follow ; s != this ; s = s.follow) {
-      if(path.nCanIn(s.path.pathweight)) {
+      if(path.nCanIn(s.path.pathweight))
         s.remove() ;
-      }
     }
   }
   boolean canIn(int[] path) {
-    for(Vector s = follow ; s != this ; s = s.follow) {
+    for(Vector s = follow ; s != this ; s = s.follow)
       if(s.path.nCanIn(path)) return false ;
-    }
     return true ;
   }
   void show() {
@@ -64,23 +62,20 @@ class Vector {
 class Path {
   int[] pathweight ;
   int parent ;
-  int index ;
   Path() {
   }
-  Path(int[] weight, int i) {
+  Path(int[] weight) {
     pathweight = weight ;
-    index = i ;
   }
-  Path(int[] weight, int prenode, int i) {
+  Path(int[] weight, int prenode) {
     pathweight = weight ;
     parent = prenode ;
-    index = i ;
   }
   void show() {
     print("pathweight=") ;
     for(int i = 0 ; i < pathweight.length ; i++)
     print("("+i+":"+pathweight[i]+") ") ;
-    println("parent="+parent+" index ="+index) ;
+    println("parent="+parent) ;
   }
   int[] calculation(int[] weight) {
     int[] value = new int[weight.length];
@@ -108,6 +103,7 @@ class PathVec {
   int index ;
   int[][] w ;
   Vector upd ;
+  Vector vs ;
   PathVec() {
   }
   PathVec(int i, int[][] wei) {
@@ -115,6 +111,7 @@ class PathVec {
     w = wei ;
     dummy = new Vector() ;
     upd = new Vector() ;
+    vs = new Vector() ;
   }
   void show() {
     dummy.show() ;
@@ -122,33 +119,34 @@ class PathVec {
   void add(Path path) {
     dummy.pre.add(new Vector(path)) ;
   }
-  void paretoConstruction(Vector ps, Vector vs) {
-    upd.clear() ;
-    for(Vector s = ps.follow ; s != ps ; s = s.follow) {
-      // show() ;
-      // println(index) ;
-      int[] path = s.path.calculation(w[s.path.index]) ;
-      if(dummy.canIn(path) && upd.canIn(path)) {
-        Path p = new Path(path, s.path.index, index) ;
+  void paretoConstruction(PathVec pps) {
+    for(Vector s = pps.upd.follow ; s != pps.upd ; s = s.follow) {
+      int[] path = s.path.calculation(w[pps.index]) ;
+      if(dummy.canIn(path))
+      if(upd.canIn(path))
+      if(vs.canIn(path)) {
+        Path p = new Path(path, pps.index) ;
         dummy.paretoOut(p) ;
         upd.paretoOut(p) ;
-        upd.add(new Vector(p)) ;
+        vs.paretoOut(p) ;
+        vs.add(new Vector(p)) ;
       }
-    }
-    if(!upd.isEmpty()) {
-      // dummy.addAll(upd.follow, upd.pre) ;
-      for(Vector s = upd.follow ; s != upd ; s = s.follow)
-        add(s.path) ;
-      vs.addAll(upd.follow, upd.pre) ;
-      // for(Vector s = upd.follow ; s != upd ; s = s.follow)
-      //   vs.pre.add(new Vector(s.path)) ;
     }
   }
   int leng() {
     int count = 0 ;
-    for(Vector s = dummy.follow ; s != dummy ; s = s.follow) {
+    for(Vector s = dummy.follow ; s != dummy ; s = s.follow)
       count++ ;
-    }
     return count ;
+  }
+  void update() {
+    if(!upd.isEmpty()) {
+      dummy.addAll(upd.follow, upd.pre) ;
+      upd.clear() ;
+    }
+    if(!vs.isEmpty()) {
+      upd.addAll(vs.follow, vs.pre) ;
+      vs.clear() ;
+    }
   }
 }

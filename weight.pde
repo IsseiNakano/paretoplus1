@@ -35,6 +35,7 @@ int[][][] instanceText(String[] lines0, String[] lines1, String[] lines2, int no
   return weight ;
 }
 
+
 // void show(int[][][] weight) {
 //   for(int i = 0 ; i < weight.length ; i++)
 //   for(int j = 0 ; j < weight[i].length ; j++)
