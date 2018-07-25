@@ -92,20 +92,6 @@ class PathVec {
   void add(int[] wei) {
     dummy.pre.add(new Vector(wei)) ;
   }
-  // void paretoConstruction(PathVec pps) {
-  //   for(Vector s = pps.upd.follow ; s != pps.upd ; s = s.follow) {
-  //     int[] path = s.calculation(w[pps.index]) ;
-  //     if(dummy.canIn(path))
-  //     if(upd.canIn(path))
-  //     if(vs.canIn(path)) {
-  //       Vector p = new Vector(path) ;
-  //       dummy.paretoOut(p) ;
-  //       upd.paretoOut(p) ;
-  //       vs.paretoOut(p) ;
-  //       vs.add(p) ;
-  //     }
-  //   }
-  // }
   boolean paretoConstruction(PathVec pps) {
     boolean flag = false ;
     for(Vector s = pps.upd.follow ; s != pps.upd ; s = s.follow) {
@@ -134,5 +120,10 @@ class PathVec {
       upd.addAll(vs.follow, vs.pre) ;
       vs.clear() ;
     }
+  }
+  void reset() {
+    dummy.clear() ;
+    upd.clear() ;
+    vs.clear() ;
   }
 }
