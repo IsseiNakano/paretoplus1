@@ -1,13 +1,3 @@
-// int[][][] instance(NodeSet us) {
-//   int[][][] weight = new int[us.size()][us.size()][objective] ;
-//   for(int i = 0 ; i < weight.length ; i++)
-//   for(int j = 0 ; j < weight[i].length ; j++)
-//   for(int l = 0 ; l < weight[i][j].length ; l++)
-//   if(i != j)
-//   weight[j][i][l] = (int)random(ninasvalue, plusvalue) ;
-//   return weight ;
-// }
-
 int[][][] instanceText(String[] lines, int nodenum, int objective) {
   int[][][] weight = new int[nodenum][nodenum][objective] ;
   for(int i = 0 ; i < lines.length ; i++){
@@ -34,11 +24,3 @@ int[][][] instanceText(String[] lines0, String[] lines1, String[] lines2, int no
   }
   return weight ;
 }
-
-
-// void show(int[][][] weight) {
-//   for(int i = 0 ; i < weight.length ; i++)
-//   for(int j = 0 ; j < weight[i].length ; j++)
-//   for(int l = 0 ; l < weight[i][j].length ; l++)
-//   println("["+i+"]["+j+"]["+l+"]= "+weight[i][j][l]) ;
-// }
