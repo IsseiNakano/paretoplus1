@@ -32,27 +32,11 @@ class Vector {
     pre = b ;
     b.follow = this ;
   }
-  void paretoOut(Vector path) {
-    for(Vector s = follow ; s != this ; s = s.follow) {
-      if(path.nCanIn(s.pathweight))
-        s.remove() ;
-    }
-  }
-  boolean canIn(int[] path) {
-    for(Vector s = follow ; s != this ; s = s.follow)
-      if(s.nCanIn(path)) return false ;
-    return true ;
-  }
   int[] calculation(int[] weight) {
     int[] value = new int[objective];
     for(int i = 0 ; i < objective ; i++)
       value[i] = pathweight[i] + weight[i] ;
     return value ;
-  }
-  boolean nCanIn(int[] b) {
-    for(int i = 0 ; i < pathweight.length ; i++)
-      if(pathweight[i] > b[i]) return false ;
-    return true ;
   }
   int dominate(int[] u) {
     int status = 0 ;
@@ -68,7 +52,7 @@ class Vector {
     for (Vector v = follow ; v != this ; v = v.follow) {
       int status = v.dominate(u) ;
       if (status <= 1) return false ;
-      if (status < 3) v.remove() ;
+      if (status == 2) v.remove() ;
     }
     return true ;
   }
@@ -92,20 +76,6 @@ class PathVec {
   void add(int[] wei) {
     dummy.pre.add(new Vector(wei)) ;
   }
-  // void paretoConstruction(PathVec pps) {
-  //   for(Vector s = pps.upd.follow ; s != pps.upd ; s = s.follow) {
-  //     int[] path = s.calculation(w[pps.index]) ;
-  //     if(dummy.canIn(path))
-  //     if(upd.canIn(path))
-  //     if(vs.canIn(path)) {
-  //       Vector p = new Vector(path) ;
-  //       dummy.paretoOut(p) ;
-  //       upd.paretoOut(p) ;
-  //       vs.paretoOut(p) ;
-  //       vs.add(p) ;
-  //     }
-  //   }
-  // }
   boolean paretoConstruction(PathVec pps) {
     boolean flag = false ;
     for(Vector s = pps.upd.follow ; s != pps.upd ; s = s.follow) {
@@ -134,5 +104,10 @@ class PathVec {
       upd.addAll(vs.follow, vs.pre) ;
       vs.clear() ;
     }
+  }
+  void reset() {
+    dummy.clear() ;
+    upd.clear() ;
+    vs.clear() ;
   }
 }

@@ -1,27 +1,17 @@
 class ParetoSolution {
+  int[][][] weight ;
   PathVec[] pareto ;
-  int s ;
-  int obj ;
-  int ns ;
 
-  ParetoSolution(int i, int nss, int[][][] weight, int objective) {
-    s = i ;
-    obj = objective ;
-    ns = nss ;
-    pareto = new PathVec[ns] ;
-    for(int j = 0 ; j < ns ; j++)  pareto[j] = new PathVec(j, weight[j]) ;
-    pareto[s].upd.add(new Vector(new int[obj])) ;
-    int start = millis() ;
-    bellmanford() ;
-    time = min(millis() - start, time) ;
-    println(millis() - start) ;
-    int count = 0 ;
-    for(PathVec ps : pareto)
-     count += ps.leng() ;
-    size = count ;
+  ParetoSolution(int[] m) {
+    weight = instanceText(m) ;
+    pareto = new PathVec[nodenum] ;
+    for(int j = 0 ; j < nodenum ; j++)  pareto[j] = new PathVec(j, weight[j]) ;
   }
 
-  void bellmanford() {
+  int bellmanford() {
+    reset() ;
+    int start = millis() ;
+    pareto[0].upd.add(new Vector(new int[objective])) ;
     boolean flag = true ;
     while(flag) {
       flag = false ;
@@ -32,6 +22,58 @@ class ParetoSolution {
       for(PathVec ps : pareto)
         ps.update() ;
     }
+    return millis() - start ;
+  }
+
+  void reset() {
+    for (PathVec vs : pareto) {
+      vs.reset() ;
+    }
+  }
+
+  void update() {
+    int time = Integer.MAX_VALUE ; ;
+    for(int i = 0 ; i < experimentNum ; i++) {
+      int times = bellmanford() ;
+      time = min(time, times) ;
+      println(times) ;
+    }
+    println(leng()+","+time) ;
+  }
+
+  int leng() {
+    int count = 0 ;
+    for(PathVec ps : pareto)
+     count += ps.leng() ;
+    return count ;
+  }
+
+  int[][][] instanceText(int[] m) {
+    int[][][] weight = new int[nodenum][nodenum][objective] ;
+    for (int k = 0 ; k < m.length ; k++) {
+      String[] lines = loadStrings(dir + "weight_" + nodenum + "_" + bound + "_" + m[k] + ".csv");
+      for(int i = 0 ; i < nodenum ; i++){
+        String[] values = split(lines[i], ",") ;
+        for(int j = 0 ; j < nodenum ; j++) {
+          weight[j][i][k] = int(values[j]) ;
+        }
+      }
+    }
+    return weight ;
+  }
+
+  int[][][] instanceTextF(int[] m) {
+    int[][][] weight = new int[nodenum][nodenum][objective] ;
+    for (int k = 0 ; k < m.length ; k++) {
+      String[] lines = loadStrings(dirF + "cost" + m[k] + ".csv");
+      for(int i = 0 ; i < nodenum ; i++){
+        String[] values = split(lines[i], ",") ;
+        for(int j = 0 ; j < nodenum ; j++) {
+          weight[j][i][k] = int(values[j]) ;
+        }
+      }
+    }
+    return weight ;
   }
 
 }
