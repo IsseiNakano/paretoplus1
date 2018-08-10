@@ -32,27 +32,11 @@ class Vector {
     pre = b ;
     b.follow = this ;
   }
-  void paretoOut(Vector path) {
-    for(Vector s = follow ; s != this ; s = s.follow) {
-      if(path.nCanIn(s.pathweight))
-        s.remove() ;
-    }
-  }
-  boolean canIn(int[] path) {
-    for(Vector s = follow ; s != this ; s = s.follow)
-      if(s.nCanIn(path)) return false ;
-    return true ;
-  }
   int[] calculation(int[] weight) {
     int[] value = new int[objective];
     for(int i = 0 ; i < objective ; i++)
       value[i] = pathweight[i] + weight[i] ;
     return value ;
-  }
-  boolean nCanIn(int[] b) {
-    for(int i = 0 ; i < pathweight.length ; i++)
-      if(pathweight[i] > b[i]) return false ;
-    return true ;
   }
   int dominate(int[] u) {
     int status = 0 ;
