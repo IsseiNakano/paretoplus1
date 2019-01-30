@@ -52,11 +52,7 @@ class Vector {
     for (Vector v = follow ; v != this ; v = v.follow) {
       int status = v.dominate(u) ;
       if (status <= 1) return false ;
-<<<<<<< HEAD
-      if (status == 2) v.remove() ;
-=======
       if (status < 3) v.remove() ;
->>>>>>> 1890bff1fbb0adfe26556ab315fb3132ad386029
     }
     return true ;
   }
